@@ -19,11 +19,11 @@ val ChipGroup.checkedChip: Chip?
 
 fun View.toggleVisibilityWithAnimation() {
     animate().setDuration(150).alpha(if (isVisible) 0f else 1f)
-    if (isVisible) hide() else showPopupWindow()
+    if (isVisible) hide() else show()
 }
 
 // View Visible
-fun View.showPopupWindow(animate: Boolean? = false, duration: Long? = 300) {
+fun View.show(animate: Boolean? = false, duration: Long? = 300) {
     if (!isVisible) {
         if (animate == true) animate().setDuration(duration!!).alpha(1f)
         visibility = View.VISIBLE
