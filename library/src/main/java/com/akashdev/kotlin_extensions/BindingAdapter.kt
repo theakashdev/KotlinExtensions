@@ -6,7 +6,6 @@ import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.appcompat.widget.SwitchCompat
 import androidx.core.widget.doAfterTextChanged
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
@@ -22,9 +21,24 @@ fun invisibleUnless(view: View, visibility: Int) {
     if (visibility == View.VISIBLE) view.invisible() else view.show()
 }
 
+@BindingAdapter("drawableStart")
+fun drawableStart(view: TextView, drawable: Drawable) {
+    view.setDrawable(start = drawable)
+}
+
 @BindingAdapter("drawableEnd")
 fun drawableEnd(view: TextView, drawable: Drawable) {
-    view.setDrawable(right = drawable)
+    view.setDrawable(end = drawable)
+}
+
+@BindingAdapter("drawableTop")
+fun drawableTop(view: TextView, drawable: Drawable) {
+    view.setDrawable(top = drawable)
+}
+
+@BindingAdapter("drawableBottom")
+fun drawableBottom(view: TextView, drawable: Drawable) {
+    view.setDrawable(bottom = drawable)
 }
 
 
@@ -33,10 +47,6 @@ fun hideErrorOnTextChanged(editText: EditText, boolean: Boolean) {
     editText.doAfterTextChanged { editText.error = null }
 }
 
-@BindingAdapter("checked")
-fun switchChecked(switch: SwitchCompat, checked: Boolean) {
-    switch.isChecked = checked
-}
 
 @BindingAdapter("startMarquee")
 fun startMarquee(textView: TextView, _isSelected: Boolean) {
@@ -49,22 +59,18 @@ fun startMarquee(textView: TextView, _isSelected: Boolean) {
     }
 }
 
-@BindingAdapter("loadImageFromURL")
-fun loadImageFromURL(imageView: ImageView, url: String?/*, placeholder: Drawable*/) {
+@BindingAdapter("loadImageFromURL", "placeholder")
+fun loadImageFromURL(imageView: ImageView, url: String?, placeholder: Drawable?) {
     Glide.with(imageView)
         .load(url)
-//        .placeholder(placeholder)
+        .placeholder(placeholder)
         .into(imageView)
 }
 
-@BindingAdapter("imageResource")
-fun imageResource(imageView: ImageView, resource: Int) {
-    imageView.setImageResource(resource)
-}
+@BindingAdapter("imageResource", "imageDrawable")
+fun imageResource(imageView: ImageView, resource: Int?, drawable: Drawable?) {
+    resource?.let { imageView.setImageResource(it) }
+    drawable?.let { imageView.setImageDrawable(it) }
 
-
-@BindingAdapter("imageResource")
-fun imageResource(imageView: ImageView, drawable: Drawable) {
-    imageView.setImageDrawable(drawable)
 }
 
