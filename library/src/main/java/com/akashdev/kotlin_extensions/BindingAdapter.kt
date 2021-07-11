@@ -14,12 +14,12 @@ import com.bumptech.glide.Glide
 
 @BindingAdapter("android:goneUnless")
 fun goneUnless(view: View, visibility: Int) {
-    if (visibility == View.VISIBLE) view.hide() else view.showPopupWindow()
+    if (visibility == View.VISIBLE) view.hide() else view.show()
 }
 
 @BindingAdapter("android:invisibleUnless")
 fun invisibleUnless(view: View, visibility: Int) {
-    if (visibility == View.VISIBLE) view.invisible() else view.showPopupWindow()
+    if (visibility == View.VISIBLE) view.invisible() else view.show()
 }
 
 @BindingAdapter("drawableEnd")
