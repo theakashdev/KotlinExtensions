@@ -8,7 +8,6 @@ allprojects {
     }
 }
 
-def kotlin_extensions_version = '0.0.3'
-implementation "com.github.theakashdev:KotlinExtensions:$kotlin_extensions_version"
+implementation "com.github.theakashdev:KotlinExtensions:$latest_version"
 
 ```
