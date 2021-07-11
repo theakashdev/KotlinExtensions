@@ -24,8 +24,15 @@ import androidx.core.net.toUri
 import java.util.*
 
 
-fun Context.openActivity(activity: Class<*>, flags: Int? = Intent.FLAG_ACTIVITY_NEW_TASK) {
-    Intent(this, activity).apply {
+fun Context.openActivity(activity: Class<*>, flags: Int? = null): Intent {
+    return Intent(this, activity).apply {
+        flags?.let { this.flags = it }
+        startActivity(this)
+    }
+}
+
+fun Context.openActivity(action: String, flags: Int? = null): Intent {
+    return Intent(action).apply {
         flags?.let { this.flags = it }
         startActivity(this)
     }

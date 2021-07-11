@@ -14,9 +14,10 @@ fun Fragment.inflate(
     attachToRoot: Boolean = false,
 ): View = context!!.inflate(layoutId, viewGroup, attachToRoot)
 
-fun Fragment.openActivity(activity: Class<*>, flags: Int? = Intent.FLAG_ACTIVITY_NEW_TASK) {
+fun Fragment.openActivity(activity: Class<*>, flags: Int? = null) =
     context?.openActivity(activity, flags)
-}
+
+fun Fragment.openActivity(action: String, flags: Int? = null) = context?.openActivity(action, flags)
 
 fun Fragment.isPhoneLocked(): Boolean = context?.isPhoneLocked() == true
 
