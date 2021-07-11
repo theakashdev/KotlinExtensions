@@ -107,10 +107,10 @@ fun Context.getListOfBrowser(): List<String> = try {
 }
 
 //Open URL
-fun Context.openURL(url: String, flags: Int) {
+fun Context.openURL(url: String, flags: Int? = null) {
     try {
         Intent(Intent.ACTION_VIEW, url.toUri()).apply {
-            this.flags = flags
+            flags?.let { this.flags = it }
             startActivity(this)
         }
     } catch (e: ActivityNotFoundException) {

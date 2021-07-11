@@ -46,7 +46,7 @@ fun Fragment.getListOfBrowser() = context?.getListOfBrowser()
 
 fun Fragment.hideSoftKeyboard(view: View) = context?.hideSoftKeyboard(view)
 
-fun Fragment.openURL(url: String, flags: Int) = context?.openURL(url, flags)
+fun Fragment.openURL(url: String, flags: Int? = null) = context?.openURL(url, flags)
 
 fun Fragment.redirectToBrowser(pkgName: String, url: String) =
     context?.redirectToBrowser(pkgName, url)
