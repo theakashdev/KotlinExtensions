@@ -12,8 +12,7 @@ fun Fragment.inflate(
     layoutId: Int,
     viewGroup: ViewGroup? = null,
     attachToRoot: Boolean = false,
-): View = inflate(layoutId, viewGroup, attachToRoot)
-
+): View = context!!.inflate(layoutId, viewGroup, attachToRoot)
 
 fun Fragment.openActivity(activity: Class<*>, flags: Int? = Intent.FLAG_ACTIVITY_NEW_TASK) {
     context?.openActivity(activity, flags)
