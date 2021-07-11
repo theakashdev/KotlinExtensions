@@ -50,10 +50,10 @@ fun startMarquee(textView: TextView, _isSelected: Boolean) {
 }
 
 @BindingAdapter("loadImageFromURL")
-fun loadImageFromURL(imageView: ImageView, url: String?, placeholder: Drawable?) {
+fun loadImageFromURL(imageView: ImageView, url: String?/*, placeholder: Drawable*/) {
     Glide.with(imageView)
         .load(url)
-        .placeholder(placeholder)
+//        .placeholder(placeholder)
         .into(imageView)
 }
 
