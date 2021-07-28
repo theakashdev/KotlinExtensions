@@ -1,6 +1,8 @@
 
 
-```build.gradle(project level)
+```
+build.gradle(project level)
+
 allprojects {
     repositories {
         ...
@@ -8,7 +10,7 @@ allprojects {
     }
 }
 
-def kotlin_extensions_version = '0.0.3'
+def kotlin_extensions_version = "0.0.5"
 implementation "com.github.theakashdev:KotlinExtensions:$kotlin_extensions_version"
 
 ```
