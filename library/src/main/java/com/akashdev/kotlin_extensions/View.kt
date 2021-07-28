@@ -16,9 +16,8 @@ val ChipGroup.checkedChipTag: String?
 val ChipGroup.checkedChip: Chip?
     get() = findViewById<Chip>(checkedChipId)
 
-
-fun View.toggleVisibilityWithAnimation() {
-    animate().setDuration(150).alpha(if (isVisible) 0f else 1f)
+fun View.toggleVisibility(animationDuration: Int? = 150) {
+    animate().setDuration(animationDuration!!.toLong()).alpha(if (isVisible) 0f else 1f)
     if (isVisible) hide() else show()
 }
 
@@ -63,3 +62,4 @@ fun View.enable() {
 fun View.snackbar(message: String, duration: Int = Snackbar.LENGTH_LONG) {
     Snackbar.make(this, message, duration).show()
 }
+

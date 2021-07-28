@@ -21,8 +21,6 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.net.toUri
-import java.util.*
-
 
 fun Context.openActivity(activity: Class<*>, flags: Int? = null): Intent {
     return Intent(this, activity).apply {
@@ -55,7 +53,7 @@ fun Context.isOnline(): Boolean {
 
 fun Context.defaultSmsApp(): String = Telephony.Sms.getDefaultSmsPackage(this)
 
-fun Context.defaultCallApp(): String? {
+fun Context.defaultCallingApp(): String? {
     val intent = Intent(Intent.ACTION_DIAL).addCategory(Intent.CATEGORY_DEFAULT)
     val resolveInfo = packageManager.resolveActivity(intent, PackageManager.MATCH_DEFAULT_ONLY)
     return resolveInfo?.activityInfo?.packageName
@@ -104,7 +102,7 @@ fun Context.isBrowserApp(packageName: String): Boolean {
     return resolveInfo?.activityInfo?.packageName == packageName
 }
 
-fun Context.getListOfBrowser(): List<String> = try {
+fun Context.getInstallBrowsersList(): List<String> = try {
     val intent = Intent(Intent.ACTION_VIEW)
     intent.data = Uri.parse("http://www.google.com")
     val browserList = packageManager.queryIntentActivities(intent, PackageManager.MATCH_ALL)
@@ -121,7 +119,7 @@ fun Context.openURL(url: String, flags: Int? = null) {
             startActivity(this)
         }
     } catch (e: ActivityNotFoundException) {
-        toast("Invalid URL")
+        toast("URL not valid")
     }
 }
 
@@ -201,14 +199,6 @@ fun Context.isNewlyInstallApp(packageName: String): Boolean {
     }
 }
 
-
-fun currentClockMinutes(): Int {
-    val calendar = Calendar.getInstance(Locale.getDefault())
-    val hour = calendar.get(Calendar.HOUR_OF_DAY)
-    val minutes = calendar.get(Calendar.MINUTE)
-    return hour * 60 + minutes
-}
-
 fun Context.hideSoftKeyboard(view: View) {
     if (view.hasFocus()) {
         val imm =
@@ -224,6 +214,3 @@ fun Context.inflate(
     viewGroup: ViewGroup? = null,
     attachToRoot: Boolean = false,
 ): View = LayoutInflater.from(this).inflate(layoutId, viewGroup, attachToRoot)
-
-
-val <T : Any> T.TAG get() = this::class.simpleName

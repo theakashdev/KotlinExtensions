@@ -27,7 +27,7 @@ fun Fragment.getDrawable(resId: Int) = AppCompatResources.getDrawable(requireCon
 
 fun Fragment.defaultSmsApp(): String? = context?.defaultSmsApp()
 
-fun Fragment.defaultCallApp(): String? = context?.defaultCallApp()
+fun Fragment.defaultCallingApp(): String? = context?.defaultCallingApp()
 
 fun Fragment.getAllAppPackages(category: String? = Intent.CATEGORY_LAUNCHER): MutableList<ResolveInfo>? =
     context?.getAllAppPackages(category)
@@ -42,7 +42,7 @@ fun Fragment.getAppNameByPackage(pkgName: String): String? = context?.getAppName
 
 fun Fragment.isBrowserApp(packageName: String): Boolean = context?.isBrowserApp(packageName) == true
 
-fun Fragment.getListOfBrowser() = context?.getListOfBrowser()
+fun Fragment.getListOfBrowser() = context?.getInstallBrowsersList()
 
 fun Fragment.hideSoftKeyboard(view: View) = context?.hideSoftKeyboard(view)
 
