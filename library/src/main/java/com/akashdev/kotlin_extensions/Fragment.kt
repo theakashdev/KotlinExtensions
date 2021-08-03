@@ -2,6 +2,7 @@ package com.akashdev.kotlin_extensions
 
 import android.content.Intent
 import android.content.pm.ResolveInfo
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +14,9 @@ fun Fragment.inflate(
     viewGroup: ViewGroup? = null,
     attachToRoot: Boolean = false,
 ): View = context!!.inflate(layoutId, viewGroup, attachToRoot)
+
+
+fun Fragment.snackbar(message: String) = requireView().snackbar(message = message)
 
 fun Fragment.openActivity(activity: Class<*>, flags: Int? = null) =
     context?.openActivity(activity, flags)
@@ -39,6 +43,9 @@ fun Fragment.getAllKeyboardAppPackages(): List<String>? = context?.getAllKeyboar
 fun Fragment.defaultKeyboard(): String? = context?.defaultKeyboard()
 
 fun Fragment.getAppNameByPackage(pkgName: String): String? = context?.getAppNameByPackage(pkgName)
+
+fun Fragment.getAppIconByPackage(pkgName: String): Drawable? =
+    context?.getAppIconByPackageName(pkgName)
 
 fun Fragment.isBrowserApp(packageName: String): Boolean = context?.isBrowserApp(packageName) == true
 

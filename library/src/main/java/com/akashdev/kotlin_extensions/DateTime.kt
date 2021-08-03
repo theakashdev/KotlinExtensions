@@ -1,9 +1,32 @@
 package com.akashdev.kotlin_extensions
 
+import java.text.Format
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
 import kotlin.math.roundToInt
+
+
+fun todayDate(
+    format: String? = "dd/MMM/yyyy",
+    locale: Locale? = Locale.getDefault(),
+): String {
+    val calendar = Calendar.getInstance()
+    val date: Date = calendar.time
+    val formatter: Format = SimpleDateFormat(format, locale)
+    return formatter.format(date)
+}
+
+fun tomorrowDate(
+    format: String? = "dd/MMM/yyyy",
+    locale: Locale? = Locale.getDefault(),
+): String {
+    val calendar = Calendar.getInstance()
+    calendar.add(Calendar.DATE, 1)
+    val date: Date = calendar.time
+    val formatter: Format = SimpleDateFormat(format, locale)
+    return formatter.format(date)
+}
 
 
 fun currentMillis() = System.currentTimeMillis()

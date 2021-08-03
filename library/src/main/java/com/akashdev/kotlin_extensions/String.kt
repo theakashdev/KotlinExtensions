@@ -8,7 +8,7 @@ import java.util.*
 
 fun String.findAnyOfWithRegex(strings: List<String>): String? {
     return strings.find { string ->
-        if (string.contains("*")) this.contains(string.toRegex()) else this.contains(string, true)
+        if (string.contains(".*")) this.contains(string.toRegex()) else this.contains(string, true)
     }?.removeSpecialChar()
 }
 

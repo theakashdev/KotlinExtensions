@@ -93,6 +93,12 @@ fun Context.getAppNameByPackage(pkgName: String): String? {
     }
 }
 
+fun Context.getAppIconByPackageName(packageName: String) = try {
+    packageManager.getApplicationIcon(packageName)
+} catch (e: PackageManager.NameNotFoundException) {
+    null
+}
+
 fun Context.isBrowserApp(packageName: String): Boolean {
     val intent = Intent(Intent.ACTION_VIEW)
     intent.data = Uri.parse("http://www.google.com")
