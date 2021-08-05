@@ -63,3 +63,9 @@ fun View.snackbar(message: String, duration: Int = Snackbar.LENGTH_LONG) {
     Snackbar.make(this, message, duration).show()
 }
 
+
+inline var View.isDisable: Boolean
+    get() = alpha == 1F
+    set(value) {
+        alpha = if (value) 0.5F else 1F
+    }

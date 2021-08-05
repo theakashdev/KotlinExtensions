@@ -51,7 +51,7 @@ fun Context.isOnline(): Boolean {
     } ?: false
 }
 
-fun Context.defaultSmsApp(): String = Telephony.Sms.getDefaultSmsPackage(this)
+fun Context.defaultSmsApp(): String? = Telephony.Sms.getDefaultSmsPackage(this)
 
 fun Context.defaultCallingApp(): String? {
     val intent = Intent(Intent.ACTION_DIAL).addCategory(Intent.CATEGORY_DEFAULT)

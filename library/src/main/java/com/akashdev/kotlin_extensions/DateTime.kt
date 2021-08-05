@@ -7,6 +7,13 @@ import java.util.concurrent.TimeUnit
 import kotlin.math.roundToInt
 
 
+fun currentClockMinutes(): Int {
+    val calendar = Calendar.getInstance(Locale.getDefault())
+    val hour = calendar.get(Calendar.HOUR_OF_DAY)
+    val minutes = calendar.get(Calendar.MINUTE)
+    return hour * 60 + minutes
+}
+
 fun todayDate(
     format: String? = "dd/MMM/yyyy",
     locale: Locale? = Locale.getDefault(),
