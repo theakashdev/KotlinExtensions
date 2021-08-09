@@ -32,15 +32,13 @@ fun String.isValidEmail(): Boolean = isNotEmpty() && Patterns.EMAIL_ADDRESS.matc
 
 fun String.isValidURL() = URLUtil.isValidUrl(this) && Patterns.WEB_URL.matcher(this).matches()
 
+
 fun String.removeSpecialChar(removeSpaces: Boolean? = false): String {
-    val str = replace("%(?![0-9a-fA-F]{2})".toRegex(), "")
+    val str = this.replace("+", "%2B").replace("%(?![0-9a-fA-F]{2})".toRegex(), "")
     val decoded = URLDecoder.decode(str, "UTF-8")
-    val regex = "[\"\\]\\[\\\\\$-.,~_;`^':!?<>/|›&@{}()]".toRegex()//skip only -- *#+
-
-    val replacementOfSpaces = if (removeSpaces == true) "" else " "
-    return decoded.lowercase().replace(regex, "").replace("\\s+".toRegex(), replacementOfSpaces)
+    val regex = "[\"\\]\\[\\\\\$\\-.,~_;`^':!?<>/|›&@{}()]".toRegex()//skip only -- *#+
+    return decoded.lowercase().replace(regex, "").replace("\\s+".toRegex(), " ")
 }
-
 
 
 val String.intValue get() = this.replace("\\D+".toRegex(), "")
