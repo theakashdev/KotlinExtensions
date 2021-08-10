@@ -10,9 +10,9 @@ fun RecyclerView.hideViewOnScroll(view: View) {
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
             super.onScrolled(recyclerView, dx, dy)
             if (dy > 0 && view.isVisible) {
-                view.hide()
+                view.hide(true, 500)
             } else if (dy < 0 && !view.isVisible) {
-                view.show()
+                view.show(true, 500)
             }
         }
     })
