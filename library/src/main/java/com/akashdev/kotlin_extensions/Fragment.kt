@@ -9,6 +9,9 @@ import android.view.ViewGroup
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.fragment.app.Fragment
 
+
+fun Fragment.isAutoTime(): Boolean = context?.isAutoTime() == true
+
 fun Fragment.inflate(
     layoutId: Int,
     viewGroup: ViewGroup? = null,
@@ -18,10 +21,11 @@ fun Fragment.inflate(
 
 fun Fragment.snackbar(message: String) = requireView().snackbar(message = message)
 
-fun Fragment.openActivity(activity: Class<*>, flags: Int? = null) =
-    context?.openActivity(activity, flags)
+fun Fragment.openActivity(activity: Class<*>, flags: Int? = null, bundle: Bundle? = null) =
+    context?.openActivity(activity, flags, bundle)
 
-fun Fragment.openActivity(action: String, flags: Int? = null) = context?.openActivity(action, flags)
+fun Fragment.openActivity(action: String, flags: Int? = null, bundle: Bundle? = null) =
+    context?.openActivity(action, flags, bundle)
 
 fun Fragment.isPhoneLocked(): Boolean = context?.isPhoneLocked() == true
 

@@ -10,6 +10,7 @@ import android.content.pm.ResolveInfo
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.net.Uri
+import android.os.Bundle
 import android.provider.Browser
 import android.provider.Settings
 import android.provider.Telephony
@@ -22,17 +23,30 @@ import android.widget.Toast
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.net.toUri
 
-fun Context.openActivity(activity: Class<*>, flags: Int? = null): Intent {
-    return Intent(this, activity).apply {
+fun Context.isAutoTime(): Boolean {
+    return Settings.Global.getInt(contentResolver, Settings.Global.AUTO_TIME) == 1
+}
+
+
+fun Context.openActivity(activity: Class<*>, flags: Int? = null, bundle: Bundle? = null) {
+    Intent(this, activity).apply {
         flags?.let { this.flags = it }
-        startActivity(this)
+        try {
+            startActivity(this, bundle)
+        } catch (e: IllegalArgumentException) {
+            startActivity(this)
+        }
     }
 }
 
-fun Context.openActivity(action: String, flags: Int? = null): Intent {
-    return Intent(action).apply {
+fun Context.openActivity(action: String, flags: Int? = null, bundle: Bundle? = null) {
+    Intent(action).apply {
         flags?.let { this.flags = it }
-        startActivity(this)
+        try {
+            startActivity(this, bundle)
+        } catch (e: IllegalArgumentException) {
+            startActivity(this)
+        }
     }
 }
 
