@@ -20,7 +20,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
-import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.net.toUri
 
 fun Context.isAutoTime(): Boolean {
@@ -226,8 +225,6 @@ fun Context.hideSoftKeyboard(view: View) {
         if (imm.isAcceptingText) imm.hideSoftInputFromWindow(view.windowToken, 0)
     }
 }
-
-fun Context.getDrawable(resId: Int) = AppCompatResources.getDrawable(this, resId)
 
 fun Context.inflate(
     layoutId: Int,
