@@ -10,7 +10,9 @@ allprojects {
     }
 }
 
-def kotlin_extensions_version = "0.0.5"
-implementation "com.github.theakashdev:KotlinExtensions:$kotlin_extensions_version"
+implementation "com.github.theakashdev:KotlinExtensions:$lastest_version"
 
 ```
+
+[![](https://jitpack.io/v/theakashdev/KotlinExtensions.svg)](https://jitpack.io/#theakashdev/KotlinExtensions)
+
