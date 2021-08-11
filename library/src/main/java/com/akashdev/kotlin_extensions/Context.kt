@@ -1,5 +1,6 @@
 package com.akashdev.kotlin_extensions
 
+import android.app.Activity
 import android.app.KeyguardManager
 import android.content.ActivityNotFoundException
 import android.content.Context
@@ -27,7 +28,12 @@ fun Context.isAutoTime(): Boolean {
 }
 
 
-fun Context.openActivity(activity: Class<*>, flags: Int? = null, bundle: Bundle? = null) {
+fun Context.openActivity(
+    activity: Class<*>,
+    flags: Int? = null,
+    bundle: Bundle? = null,
+    finish: Boolean? = false
+) {
     Intent(this, activity).apply {
         flags?.let { this.flags = it }
         try {
@@ -35,18 +41,12 @@ fun Context.openActivity(activity: Class<*>, flags: Int? = null, bundle: Bundle?
         } catch (e: IllegalArgumentException) {
             startActivity(this)
         }
+        if (finish == true) (this@openActivity as Activity).finish()
     }
 }
 
-fun Context.openActivity(action: String, flags: Int? = null, bundle: Bundle? = null) {
-    Intent(action).apply {
-        flags?.let { this.flags = it }
-        try {
-            startActivity(this, bundle)
-        } catch (e: IllegalArgumentException) {
-            startActivity(this)
-        }
-    }
+fun Context.openActivity(action: String) {
+    startActivity(Intent(action))
 }
 
 fun Context.isPhoneLocked(): Boolean {

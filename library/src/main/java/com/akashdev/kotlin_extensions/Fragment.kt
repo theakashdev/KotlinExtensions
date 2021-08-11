@@ -21,11 +21,14 @@ fun Fragment.inflate(
 
 fun Fragment.snackbar(message: String) = requireView().snackbar(message = message)
 
-fun Fragment.openActivity(activity: Class<*>, flags: Int? = null, bundle: Bundle? = null) =
-    context?.openActivity(activity, flags, bundle)
+fun Fragment.openActivity(
+    activity: Class<*>,
+    flags: Int? = null,
+    bundle: Bundle? = null,
+    finish: Boolean? = false
+) = context?.openActivity(activity, flags, bundle, finish)
 
-fun Fragment.openActivity(action: String, flags: Int? = null, bundle: Bundle? = null) =
-    context?.openActivity(action, flags, bundle)
+fun Fragment.openActivity(action: String) = context?.openActivity(action)
 
 fun Fragment.isPhoneLocked(): Boolean = context?.isPhoneLocked() == true
 
