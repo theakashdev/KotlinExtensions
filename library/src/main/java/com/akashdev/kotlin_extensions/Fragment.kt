@@ -28,7 +28,8 @@ fun Fragment.openActivity(
     finish: Boolean? = false
 ) = context?.openActivity(activity, flags, bundle, finish)
 
-fun Fragment.openActivity(action: String) = context?.openActivity(action)
+fun Fragment.openActivity(action: String, flags: Int? = null, bundle: Bundle? = null) =
+    context?.openActivity(action, flags, bundle)
 
 fun Fragment.isPhoneLocked(): Boolean = context?.isPhoneLocked() == true
 

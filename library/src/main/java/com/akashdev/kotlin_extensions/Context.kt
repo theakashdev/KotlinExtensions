@@ -45,8 +45,15 @@ fun Context.openActivity(
     }
 }
 
-fun Context.openActivity(action: String) {
-    startActivity(Intent(action))
+fun Context.openActivity(action: String, flags: Int? = null, bundle: Bundle? = null) {
+    Intent(action).apply {
+        flags?.let { this.flags = it }
+        try {
+            startActivity(this, bundle)
+        } catch (e: IllegalArgumentException) {
+            startActivity(this)
+        }
+    }
 }
 
 fun Context.isPhoneLocked(): Boolean {
