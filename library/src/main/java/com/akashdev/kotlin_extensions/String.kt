@@ -9,9 +9,10 @@ import java.util.regex.Pattern
 
 
 fun String.findAnyOfWithRegex(strings: List<String>): String? {
+    val input = this.replace("[+/\\-~_]".toRegex(), " ")
     return strings.find { string ->
         val pattern = Pattern.compile(string)
-        val matcher = pattern.matcher(this)
+        val matcher = pattern.matcher(input)
         val matchFound = matcher.find()
         if (matchFound) {
             return if (matcher.groupCount() == 0) {
