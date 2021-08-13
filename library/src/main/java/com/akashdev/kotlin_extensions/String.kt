@@ -3,10 +3,9 @@ package com.akashdev.kotlin_extensions
 import android.util.Patterns
 import android.webkit.URLUtil
 import androidx.core.text.trimmedLength
-import java.net.URLDecoder
 import java.util.*
-import java.util.regex.Pattern
 
+/*
 
 fun String.findAnyOfWithRegex(regexOrNormalStrings: List<String>): String? {
 //    val input = this.lowercase()
@@ -34,6 +33,7 @@ fun String.findAnyOfWithRegex(regexOrNormalStrings: List<String>): String? {
         } else false
     }
 }
+*/
 
 fun String.isValidEmail(): Boolean = isNotEmpty() && Patterns.EMAIL_ADDRESS.matcher(this).matches()
 
@@ -42,13 +42,13 @@ fun String.isValidURL() = URLUtil.isValidUrl(this) && Patterns.WEB_URL.matcher(t
 fun String.replaceSpecialCharWithStringChar(): String {
     return this.replace("+", "\\+").replace("#", "\\#")
 }
-
+/*
 fun String.removeSpecialChar(): String {
     val str = this.replace("+", "%2B").replace("%(?![0-9a-fA-F]{2})".toRegex(), "")
     val decoded = URLDecoder.decode(str, "UTF-8")
     val regex = "[\"\\]\\[\\\\\$\\-.,~_;`^':!?<>/|›&@{}()]".toRegex()//skip only -- *#+
     return decoded.lowercase().replace(regex, "").replace("\\s+".toRegex(), " ")
-}
+}*/
 
 
 val String.intValue get() = this.replace("\\D+".toRegex(), "")
