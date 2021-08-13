@@ -8,15 +8,21 @@ import java.util.*
 import java.util.regex.Pattern
 
 
-fun String.findAnyOfWithRegex(strings: List<String>): String? {
-    val input = this.replace("[+/\\-~_]".toRegex(), " ")
-    return strings.find { string ->
+fun String.findAnyOfWithRegex(regexOrNormalStrings: List<String>): String? {
+//    val input = this.lowercase()
+    val input = if (this.contains("18+")) {
+        this.replace("[/\\-~_]".toRegex(), " ")
+    } else {
+        this.replace("[+/\\-~_]".toRegex(), " ")
+    }.lowercase()
+
+    return regexOrNormalStrings.find { string ->
         val pattern = Pattern.compile(string)
         val matcher = pattern.matcher(input)
         val matchFound = matcher.find()
         if (matchFound) {
             return if (matcher.groupCount() == 0) {
-                string.replace(".*", " ")
+                string.replace(".*", " ").replace("\\", "")
             } else {
                 var value = ""
                 val list = 1..matcher.groupCount()
