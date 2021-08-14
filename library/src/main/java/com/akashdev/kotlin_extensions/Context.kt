@@ -10,7 +10,6 @@ import android.content.pm.ResolveInfo
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.net.Uri
-import android.os.Bundle
 import android.provider.Browser
 import android.provider.Settings
 import android.provider.Telephony
@@ -32,6 +31,7 @@ fun Context.uninstallApp(packageName: String) {
     intent.data = "package:$packageName".toUri()
     startActivity(intent)
 }
+/*
 
 fun Context.openActivity(
     activity: Class<*>,
@@ -58,6 +58,7 @@ fun Context.openActivity(action: String, flags: Int? = null, bundle: Bundle? = n
         }
     }
 }
+*/
 
 fun Context.isPhoneLocked(): Boolean {
     return (getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager).isKeyguardLocked
