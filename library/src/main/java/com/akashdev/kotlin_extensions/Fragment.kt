@@ -12,6 +12,9 @@ import androidx.fragment.app.Fragment
 
 fun Fragment.isAutoTime(): Boolean = context?.isAutoTime() == true
 
+
+fun Fragment.uninstallApp(packageName: String) = context?.uninstallApp(packageName)
+
 fun Fragment.inflate(
     layoutId: Int,
     viewGroup: ViewGroup? = null,
@@ -25,11 +28,13 @@ fun Fragment.openActivity(
     activity: Class<*>,
     flags: Int? = null,
     bundle: Bundle? = null,
-    finish: Boolean? = false
-) = context?.openActivity(activity, flags, bundle, finish)
+) = context?.openActivity(activity, flags, bundle)
 
-fun Fragment.openActivity(action: String, flags: Int? = null, bundle: Bundle? = null) =
-    context?.openActivity(action, flags, bundle)
+fun Fragment.openActivity(
+    action: String,
+    flags: Int? = null,
+    bundle: Bundle? = null
+) = context?.openActivity(action, flags, bundle)
 
 fun Fragment.isPhoneLocked(): Boolean = context?.isPhoneLocked() == true
 

@@ -1,6 +1,5 @@
 package com.akashdev.kotlin_extensions
 
-import android.app.Activity
 import android.app.KeyguardManager
 import android.content.ActivityNotFoundException
 import android.content.Context
@@ -28,11 +27,16 @@ fun Context.isAutoTime(): Boolean {
 }
 
 
+fun Context.uninstallApp(packageName: String) {
+    val intent = Intent(Intent.ACTION_DELETE)
+    intent.data = "package:$packageName".toUri()
+    startActivity(intent)
+}
+
 fun Context.openActivity(
     activity: Class<*>,
     flags: Int? = null,
-    bundle: Bundle? = null,
-    finish: Boolean? = false
+    bundle: Bundle? = null
 ) {
     Intent(this, activity).apply {
         flags?.let { this.flags = it }
@@ -41,7 +45,6 @@ fun Context.openActivity(
         } catch (e: IllegalArgumentException) {
             startActivity(this)
         }
-        if (finish == true) (this@openActivity as Activity).finish()
     }
 }
 
