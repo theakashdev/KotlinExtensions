@@ -3,6 +3,7 @@ package com.akashdev.kotlin_extensions
 import android.util.Patterns
 import android.webkit.URLUtil
 import androidx.core.text.trimmedLength
+import java.net.URI
 import java.util.*
 
 /*
@@ -69,3 +70,38 @@ fun String.takeWithDotted(n: Int): String {
 }
 
 
+fun CharSequence.lowercase(): String = this.toString().lowercase(Locale.ROOT)
+
+
+fun String.getAmPmFromTime(): String = when {
+    contains("AM", true) -> "AM"
+    contains("PM", true) -> "PM"
+    else -> ""
+}
+
+
+fun String.contains(contains: String, notContains: String, ignoreCase: Boolean? = true): Boolean {
+    return if (ignoreCase == true) {
+        this.contains("(?=.*$contains)(?!.*$notContains)(.+)".toRegex(RegexOption.IGNORE_CASE))
+    } else {
+        this.contains("(?=.*$contains)(?!.*$notContains)(.+)".toRegex())
+    }
+}
+
+fun String?.stringToURL(): URI? {
+    return runCatching {
+        val urlString = if (this?.startsWith("http") == true) this else "https://$this"
+        URI.create(urlString)
+    }.getOrNull()
+}
+
+
+fun String.removeLastSlash(): String = if (endsWith("/")) substring(0, lastIndexOf("/")) else this
+
+fun String.timeWithoutAmPm(): String = when {
+    //time is 12 hours
+    length > 5 -> replaceAfter(" ", "").removeWhitespaces()
+
+    //time is 24 hours
+    else -> this
+}

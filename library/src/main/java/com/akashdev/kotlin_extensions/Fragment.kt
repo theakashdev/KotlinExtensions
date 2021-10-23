@@ -62,7 +62,8 @@ fun Fragment.getAppNameByPackage(pkgName: String): String? = context?.getAppName
 fun Fragment.getAppIconByPackage(pkgName: String): Drawable? =
     context?.getAppIconByPackageName(pkgName)
 
-fun Fragment.isBrowserApp(packageName: String): Boolean = context?.isBrowserApp(packageName) == true
+fun Fragment.isBrowserApp(packageName: CharSequence): Boolean =
+    context?.isBrowserApp(packageName) == true
 
 fun Fragment.getListOfBrowser() = context?.getInstallBrowsersList()
 

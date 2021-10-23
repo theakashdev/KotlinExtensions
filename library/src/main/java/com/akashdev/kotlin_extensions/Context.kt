@@ -1,7 +1,6 @@
 package com.akashdev.kotlin_extensions
 
 import android.app.KeyguardManager
-import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.content.pm.ApplicationInfo
@@ -10,6 +9,7 @@ import android.content.pm.ResolveInfo
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.net.Uri
+import android.os.BatteryManager
 import android.provider.Browser
 import android.provider.Settings
 import android.provider.Telephony
@@ -75,7 +75,9 @@ fun Context.isOnline(): Boolean {
     } ?: false
 }
 
-fun Context.defaultSmsApp(): String? = Telephony.Sms.getDefaultSmsPackage(this)
+fun Context.defaultSmsApp(): String? = runCatching {
+    Telephony.Sms.getDefaultSmsPackage(this)
+}.getOrNull()
 
 fun Context.defaultCallingApp(): String? {
     val intent = Intent(Intent.ACTION_DIAL).addCategory(Intent.CATEGORY_DEFAULT)
@@ -106,51 +108,40 @@ fun Context.defaultKeyboard(): String {
         .split("/")[0]
 }
 
-fun Context.getAppNameByPackage(pkgName: String): String? {
-    return try {
-        val packageManager = packageManager
-        val info = packageManager.getApplicationInfo(pkgName, PackageManager.GET_META_DATA)
-        packageManager.getApplicationLabel(info).toString()
-    } catch (e: PackageManager.NameNotFoundException) {
-        e.printStackTrace()
-        null
-    }
-}
+fun Context.getAppNameByPackage(pkgName: String): String? = runCatching {
+    val packageManager = packageManager
+    val info = packageManager.getApplicationInfo(pkgName, PackageManager.GET_META_DATA)
+    packageManager.getApplicationLabel(info).toString()
+}.getOrNull()
 
-fun Context.getAppIconByPackageName(packageName: String) = try {
+fun Context.getAppIconByPackageName(packageName: String) = runCatching {
     packageManager.getApplicationIcon(packageName)
-} catch (e: PackageManager.NameNotFoundException) {
-    null
-}
+}.getOrNull()
 
-fun Context.isBrowserApp(packageName: String): Boolean {
+fun Context.isBrowserApp(packageName: CharSequence): Boolean {
     val intent = Intent(Intent.ACTION_VIEW)
     intent.data = Uri.parse("http://www.google.com")
-    intent.setPackage(packageName)
+    intent.setPackage("$packageName")
     val resolveInfo = packageManager.resolveActivity(intent, 0)
 
     return resolveInfo?.activityInfo?.packageName == packageName
 }
 
-fun Context.getInstallBrowsersList(): List<String> = try {
+fun Context.getInstallBrowsersList(): List<String> = runCatching {
     val intent = Intent(Intent.ACTION_VIEW)
     intent.data = Uri.parse("http://www.google.com")
     val browserList = packageManager.queryIntentActivities(intent, PackageManager.MATCH_ALL)
     browserList.map { it.activityInfo.packageName }
-} catch (e: Exception) {
-    emptyList()
-}
+}.getOrDefault(emptyList())
 
 //Open URL
 fun Context.openURL(url: String, flags: Int? = null) {
-    try {
+    runCatching {
         Intent(Intent.ACTION_VIEW, url.toUri()).apply {
             flags?.let { this.flags = it }
             startActivity(this)
         }
-    } catch (e: ActivityNotFoundException) {
-        toast("URL not valid")
-    }
+    }.onFailure { toast("${it.message}") }
 }
 
 
@@ -160,11 +151,9 @@ fun Context.redirectToBrowser(packageName: String, url: String) {
         setPackage(packageName)
         putExtra(Browser.EXTRA_APPLICATION_ID, packageName)
     }
-    try {
+    runCatching {
         startActivity(intent)
-    } catch (e: Exception) {
-        Log.d(TAG, "redirectBrowser: error=${e.message}")
-    }
+    }.onFailure { Log.d(TAG, "redirectBrowser:error ${it.message}") }
 }
 
 //Toast
@@ -190,20 +179,16 @@ fun Context.share(message: String, appId: String? = null) {
 
 
 // Check Package Installed
-fun Context.isPackageInstalled(packageName: String) = try {
+fun Context.isPackageInstalled(packageName: String) = runCatching {
     packageManager.getPackageInfo(packageName, 0)
     true
-} catch (e: PackageManager.NameNotFoundException) {
-    false
-}
+}.getOrDefault(false)
 
 
-fun Context.isSystemApp(packageName: String) = try {
+fun Context.isSystemApp(packageName: String) = runCatching {
     val info = packageManager.getApplicationInfo(packageName, 0)
     info.flags and ApplicationInfo.FLAG_SYSTEM != 0
-} catch (e: PackageManager.NameNotFoundException) {
-    false
-}
+}.getOrDefault(false)
 
 
 // Send Email
@@ -219,14 +204,11 @@ fun Context.email(emails: Array<String>, subject: String, message: String? = nul
 }
 
 fun Context.isNewlyInstallApp(packageName: String): Boolean {
-    return try {
+    return runCatching {
         val firstInstallTime = packageManager.getPackageInfo(packageName, 0).firstInstallTime
         val lastUpdateTime = packageManager.getPackageInfo(packageName, 0).lastUpdateTime
         firstInstallTime == lastUpdateTime
-    } catch (e: PackageManager.NameNotFoundException) {
-        e.printStackTrace()
-        true
-    }
+    }.getOrDefault(false)
 }
 
 fun Context.hideSoftKeyboard(view: View) {
@@ -242,3 +224,16 @@ fun Context.inflate(
     viewGroup: ViewGroup? = null,
     attachToRoot: Boolean = false,
 ): View = LayoutInflater.from(this).inflate(layoutId, viewGroup, attachToRoot)
+
+
+fun Context.getLauncherActivityName(packageName: CharSequence): String? {
+    val launchIntent: Intent? = packageManager.getLaunchIntentForPackage("$packageName")
+    return launchIntent?.component?.className
+}
+
+
+fun Context.batteryLevel(): Int {
+    return (getSystemService(Context.BATTERY_SERVICE) as BatteryManager).getIntProperty(
+        BatteryManager.BATTERY_PROPERTY_CAPACITY
+    )
+}
