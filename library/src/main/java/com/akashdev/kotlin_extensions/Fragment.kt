@@ -13,7 +13,7 @@ import androidx.fragment.app.Fragment
 fun Fragment.isAutoTime(): Boolean = context?.isAutoTime() == true
 
 
-fun Fragment.uninstallApp(packageName: String) = context?.uninstallApp(packageName)
+fun Fragment.uninstallApp(packageName: CharSequence) = context?.uninstallApp(packageName)
 
 fun Fragment.inflate(
     layoutId: Int,
@@ -57,9 +57,10 @@ fun Fragment.getAllKeyboardAppPackages(): List<String>? = context?.getAllKeyboar
 
 fun Fragment.defaultKeyboard(): String? = context?.defaultKeyboard()
 
-fun Fragment.getAppNameByPackage(pkgName: String): String? = context?.getAppNameByPackage(pkgName)
+fun Fragment.getAppNameByPackage(pkgName: CharSequence): String? =
+    context?.getAppNameByPackage(pkgName)
 
-fun Fragment.getAppIconByPackage(pkgName: String): Drawable? =
+fun Fragment.getAppIconByPackage(pkgName: CharSequence): Drawable? =
     context?.getAppIconByPackageName(pkgName)
 
 fun Fragment.isBrowserApp(packageName: CharSequence): Boolean =
@@ -71,23 +72,24 @@ fun Fragment.hideSoftKeyboard(view: View) = context?.hideSoftKeyboard(view)
 
 fun Fragment.openURL(url: String, flags: Int? = null) = context?.openURL(url, flags)
 
-fun Fragment.redirectToBrowser(pkgName: String, url: String) =
+fun Fragment.redirectToBrowser(pkgName: CharSequence, url: String) =
     context?.redirectToBrowser(pkgName, url)
 
-fun Fragment.toast(text: String) = requireContext().toast(text)
+fun Fragment.toast(text: CharSequence) = requireContext().toast(text)
 
 fun Fragment.toast(resId: Int) = requireContext().toast(getString(resId))
 
 fun Fragment.share(message: String, appId: String? = null) = context?.share(message, appId)
 
-fun Fragment.isPackageInstalled(packageName: String) = context?.isPackageInstalled(packageName)
+fun Fragment.isPackageInstalled(packageName: CharSequence) =
+    context?.isPackageInstalled(packageName)
 
-fun Fragment.isSystemApp(packageName: String) = context?.isSystemApp(packageName)
+fun Fragment.isSystemApp(packageName: CharSequence) = context?.isSystemApp(packageName)
 
 fun Fragment.email(emails: Array<String>, subject: String, message: String? = null) =
     context?.email(emails, subject, message)
 
-fun Fragment.isNewlyInstallApp(packageName: String): Boolean =
+fun Fragment.isNewlyInstallApp(packageName: CharSequence): Boolean =
     context?.isNewlyInstallApp(packageName) == true
 
 inline fun <T : Fragment> T.withArgs(argsBuilder: Bundle.() -> Unit): T = this.apply {

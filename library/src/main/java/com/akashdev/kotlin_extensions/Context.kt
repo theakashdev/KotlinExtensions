@@ -26,7 +26,7 @@ fun Context.isAutoTime(): Boolean {
 }
 
 
-fun Context.uninstallApp(packageName: String) {
+fun Context.uninstallApp(packageName: CharSequence) {
     val intent = Intent(Intent.ACTION_DELETE)
     intent.data = "package:$packageName".toUri()
     startActivity(intent)
@@ -108,14 +108,14 @@ fun Context.defaultKeyboard(): String {
         .split("/")[0]
 }
 
-fun Context.getAppNameByPackage(pkgName: String): String? = runCatching {
+fun Context.getAppNameByPackage(pkgName: CharSequence): String? = runCatching {
     val packageManager = packageManager
-    val info = packageManager.getApplicationInfo(pkgName, PackageManager.GET_META_DATA)
+    val info = packageManager.getApplicationInfo("$pkgName", PackageManager.GET_META_DATA)
     packageManager.getApplicationLabel(info).toString()
 }.getOrNull()
 
-fun Context.getAppIconByPackageName(packageName: String) = runCatching {
-    packageManager.getApplicationIcon(packageName)
+fun Context.getAppIconByPackageName(packageName: CharSequence) = runCatching {
+    packageManager.getApplicationIcon("$packageName")
 }.getOrNull()
 
 fun Context.isBrowserApp(packageName: CharSequence): Boolean {
@@ -145,10 +145,10 @@ fun Context.openURL(url: String, flags: Int? = null) {
 }
 
 
-fun Context.redirectToBrowser(packageName: String, url: String) {
+fun Context.redirectToBrowser(packageName: CharSequence, url: String) {
     val intent = Intent(Intent.ACTION_VIEW, url.toUri()).apply {
         addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        setPackage(packageName)
+        setPackage("$packageName")
         putExtra(Browser.EXTRA_APPLICATION_ID, packageName)
     }
     runCatching {
@@ -179,14 +179,14 @@ fun Context.share(message: String, appId: String? = null) {
 
 
 // Check Package Installed
-fun Context.isPackageInstalled(packageName: String) = runCatching {
-    packageManager.getPackageInfo(packageName, 0)
+fun Context.isPackageInstalled(packageName: CharSequence) = runCatching {
+    packageManager.getPackageInfo("$packageName", 0)
     true
 }.getOrDefault(false)
 
 
-fun Context.isSystemApp(packageName: String) = runCatching {
-    val info = packageManager.getApplicationInfo(packageName, 0)
+fun Context.isSystemApp(packageName: CharSequence) = runCatching {
+    val info = packageManager.getApplicationInfo("$packageName", 0)
     info.flags and ApplicationInfo.FLAG_SYSTEM != 0
 }.getOrDefault(false)
 
@@ -203,10 +203,10 @@ fun Context.email(emails: Array<String>, subject: String, message: String? = nul
     }
 }
 
-fun Context.isNewlyInstallApp(packageName: String): Boolean {
+fun Context.isNewlyInstallApp(packageName: CharSequence): Boolean {
     return runCatching {
-        val firstInstallTime = packageManager.getPackageInfo(packageName, 0).firstInstallTime
-        val lastUpdateTime = packageManager.getPackageInfo(packageName, 0).lastUpdateTime
+        val firstInstallTime = packageManager.getPackageInfo("$packageName", 0).firstInstallTime
+        val lastUpdateTime = packageManager.getPackageInfo("$packageName", 0).lastUpdateTime
         firstInstallTime == lastUpdateTime
     }.getOrDefault(false)
 }

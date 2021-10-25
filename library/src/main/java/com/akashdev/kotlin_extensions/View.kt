@@ -47,15 +47,9 @@ fun View.invisible(animate: Boolean? = false, duration: Long? = 300) {
 }
 
 
-fun View.disable() {
-    this.isEnabled = false
-    this.alpha = 0.5f
-}
-
-
-fun View.enable() {
-    this.isEnabled = true
-    this.alpha = 1f
+fun View.enable(isEnabled: Boolean) {
+    this.isEnabled = isEnabled
+    alpha = if (isEnabled) 1F else 0.7F
 }
 
 //snackbar
@@ -63,9 +57,3 @@ fun View.snackbar(message: String, duration: Int = Snackbar.LENGTH_LONG) {
     Snackbar.make(this, message, duration).show()
 }
 
-
-inline var View.isDisable: Boolean
-    get() = alpha == 1F
-    set(value) {
-        alpha = if (value) 0.5F else 1F
-    }
