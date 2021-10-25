@@ -106,6 +106,6 @@ fun String.timeWithoutAmPm(): String = when {
     else -> this
 }
 
-fun CharSequence?.toIntOrZero() = this?.toString()?.toIntOrNull() ?: 0
+fun CharSequence?.toIntOrZero() = this.toString().toIntOrNull() ?: 0
 
 fun CharSequence?.wordCount() = this?.split("\\s+".toRegex())?.size ?: 0
