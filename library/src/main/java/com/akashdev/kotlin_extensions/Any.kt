@@ -9,14 +9,14 @@ import kotlin.math.roundToInt
 
 
 /** returns integer dimensional value from the integer px value. */
-internal val Int.dp: Int
-    @JvmSynthetic inline get() = TypedValue.applyDimension(
+val Int.dp: Int
+    get() = TypedValue.applyDimension(
         TypedValue.COMPLEX_UNIT_DIP, this.toFloat(),
         Resources.getSystem().displayMetrics
     ).roundToInt()
 
 
-internal val <E> List<E>?.countOrZero: Int
+val <E> List<E>?.countOrZero: Int
     get() = this?.size ?: 0
 
 fun <A, B> Pair<A, B>?.isNotNull(): Boolean {
