@@ -76,8 +76,8 @@ fun Fragment.redirectToBrowser(pkgName: CharSequence, url: String) =
     context?.redirectToBrowser(pkgName, url)
 
 fun Fragment.toast(text: CharSequence) = requireContext().toast(text)
-
 fun Fragment.toast(resId: Int) = requireContext().toast(getString(resId))
+fun Fragment.copyToClipboard(text: String, label: String = "") = context?.copyToClipboard(text)
 
 fun Fragment.share(message: String, appId: String? = null) = context?.share(message, appId)
 

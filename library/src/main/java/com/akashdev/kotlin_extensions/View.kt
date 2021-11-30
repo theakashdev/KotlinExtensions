@@ -6,7 +6,6 @@ import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.snackbar.Snackbar
 
-
 val ChipGroup.checkedChipText: String?
     get() = findViewById<Chip>(checkedChipId)?.text?.toString()
 
@@ -16,36 +15,51 @@ val ChipGroup.checkedChipTag: String?
 val ChipGroup.checkedChip: Chip?
     get() = findViewById<Chip>(checkedChipId)
 
-fun View.toggleVisibility(animationDuration: Int? = 150) {
-    animate().setDuration(animationDuration!!.toLong()).alpha(if (isVisible) 0f else 1f)
-    if (isVisible) hide() else show()
+// View Visible
+fun View.show() {
+    if (!isVisible) visibility = View.VISIBLE
+}
+
+// View Invisible
+fun View.hide() {
+    if (isVisible) visibility = View.GONE
+}
+
+// View Invisible
+fun View.invisible() {
+    if (isVisible) visibility = View.INVISIBLE
 }
 
 // View Visible
-fun View.show(animate: Boolean? = false, duration: Long? = 300) {
+fun View.showWithAnimation(duration: Long? = 300) {
     if (!isVisible) {
-        if (animate == true) animate().setDuration(duration!!).alpha(1f)
+        animate().setDuration(duration ?: 0).alpha(1f)
         visibility = View.VISIBLE
     }
 }
 
 // View Invisible
-fun View.hide(animate: Boolean? = false, duration: Long? = 300) {
+fun View.hideWithAnimation(duration: Long? = 300) {
     if (isVisible) {
-        if (animate == true) animate().setDuration(duration!!).alpha(0f)
+        animate().setDuration(duration ?: 0).alpha(0f)
         visibility = View.GONE
     }
 }
 
-
 // View Invisible
-fun View.invisible(animate: Boolean? = false, duration: Long? = 300) {
+fun View.invisibleWithAnimation(duration: Long? = 300) {
     if (isVisible) {
-        if (animate == true) animate().setDuration(duration!!).alpha(0f)
+        animate().setDuration(duration ?: 0).alpha(0f)
         visibility = View.INVISIBLE
     }
 }
 
+fun View.toggleVisibility() = if (isVisible) hide() else show()
+
+fun View.toggleVisibilityWithAnimation(duration: Long? = 150) {
+    animate().setDuration(duration ?: 0).alpha(if (isVisible) 0f else 1f)
+    if (isVisible) hideWithAnimation() else showWithAnimation()
+}
 
 fun View.enable(isEnabled: Boolean) {
     this.isEnabled = isEnabled

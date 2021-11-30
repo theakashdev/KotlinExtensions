@@ -1,6 +1,8 @@
 package com.akashdev.kotlin_extensions
 
 import android.app.KeyguardManager
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.content.pm.ApplicationInfo
@@ -19,6 +21,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 
 fun Context.isAutoTime(): Boolean {
@@ -161,6 +164,12 @@ fun Context.toast(data: Any) = Toast.makeText(this, data.toString(), Toast.LENGT
 fun Context.toast(text: String) = Toast.makeText(this, text, Toast.LENGTH_LONG).show()
 fun Context.toast(resId: Int) = toast(getString(resId))
 
+
+fun Context.copyToClipboard(text: CharSequence, label: String = "") {
+    val clipboard = ContextCompat.getSystemService(this, ClipboardManager::class.java)
+    clipboard?.setPrimaryClip(ClipData.newPlainText(label, text))
+    toast("$label Copy successfully".trim())
+}
 
 // Share
 fun Context.share(message: String, appId: String? = null) {

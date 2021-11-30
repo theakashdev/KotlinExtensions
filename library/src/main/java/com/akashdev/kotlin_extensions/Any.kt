@@ -1,9 +1,23 @@
 package com.akashdev.kotlin_extensions
 
 import android.content.Context
+import android.content.res.Resources
 import android.os.Build
+import android.util.TypedValue
 import com.google.gson.Gson
+import kotlin.math.roundToInt
 
+
+/** returns integer dimensional value from the integer px value. */
+internal val Int.dp: Int
+    @JvmSynthetic inline get() = TypedValue.applyDimension(
+        TypedValue.COMPLEX_UNIT_DIP, this.toFloat(),
+        Resources.getSystem().displayMetrics
+    ).roundToInt()
+
+
+internal val <E> List<E>?.countOrZero: Int
+    get() = this?.size ?: 0
 
 fun <A, B> Pair<A, B>?.isNotNull(): Boolean {
     return this != null
