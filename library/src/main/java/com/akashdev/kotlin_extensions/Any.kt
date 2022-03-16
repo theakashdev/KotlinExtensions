@@ -6,6 +6,7 @@ import android.os.Build
 import android.util.TypedValue
 import com.google.gson.Gson
 import kotlin.math.roundToInt
+import kotlin.random.Random
 
 
 /** returns integer dimensional value from the integer px value. */
@@ -42,3 +43,5 @@ fun getInstallerPackageName(context: Context, packageName: String): String? {
         context.packageManager.getInstallerPackageName(packageName)
     }.getOrNull()
 }
+
+val dialogTag = "Dialog${Random.nextInt()}"

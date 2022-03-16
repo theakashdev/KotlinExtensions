@@ -1,5 +1,6 @@
 package com.akashdev.kotlin_extensions
 
+import android.util.Base64
 import android.util.Patterns
 import android.webkit.URLUtil
 import androidx.core.text.trimmedLength
@@ -36,7 +37,8 @@ fun String.findAnyOfWithRegex(regexOrNormalStrings: List<String>): String? {
 }
 */
 
-fun String.isValidEmail(): Boolean = isNotEmpty() && Patterns.EMAIL_ADDRESS.matcher(this).matches()
+fun String.isValidEmail(): Boolean =
+    !isNullOrBlank() && Patterns.EMAIL_ADDRESS.matcher(this).matches()
 
 fun String.isValidURL() = URLUtil.isValidUrl(this) && Patterns.WEB_URL.matcher(this).matches()
 
@@ -109,3 +111,12 @@ fun String.timeWithoutAmPm(): String = when {
 fun CharSequence?.toIntOrZero() = this.toString().toIntOrNull() ?: 0
 
 fun CharSequence?.wordCount() = this?.split("\\s+".toRegex())?.size ?: 0
+
+
+fun String.encodeToBase64(): String {
+    return Base64.encodeToString(this.toByteArray(charset("UTF-8")), Base64.DEFAULT)
+}
+
+fun String.decodeToBase64(): String {
+    return Base64.decode(this, Base64.DEFAULT).toString(charset("UTF-8"))
+}

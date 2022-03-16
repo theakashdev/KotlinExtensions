@@ -25,6 +25,18 @@ fun View.hide() {
     if (isVisible) visibility = View.GONE
 }
 
+//Enable View
+fun View.enable() {
+    isEnabled = true
+    alpha = 1f
+}
+
+//Disable View
+fun View.disable() {
+    isEnabled = false
+    alpha = 0.7F
+}
+
 // View Invisible
 fun View.invisible() {
     if (isVisible) visibility = View.INVISIBLE

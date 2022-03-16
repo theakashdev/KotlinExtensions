@@ -2,31 +2,34 @@ package com.akashdev.kotlin_extensions
 
 import android.view.View
 import android.widget.ScrollView
-import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 
 
-fun RecyclerView.hideViewOnScroll(view: View) {
+fun RecyclerView.hideViewOnScroll(vararg views: View) {
     addOnScrollListener(object : RecyclerView.OnScrollListener() {
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
             super.onScrolled(recyclerView, dx, dy)
-            if (dy > 0 && view.isVisible) {
-                view.hideWithAnimation(500)
-            } else if (dy < 0 && !view.isVisible) {
-                view.showWithAnimation(500)
+            if (dy > 0) {
+                //Scroll down
+                views.forEach { it.hideWithAnimation(500) }
+            } else if (dy < 0) {
+                //Scroll up
+                views.forEach { it.showWithAnimation(500) }
             }
         }
     })
 }
 
-fun ScrollView.hideViewOnScroll(view: View) {
-    setOnScrollChangeListener { _, scrollX, scrollY, _, oldScrollY ->
-        if (scrollY > oldScrollY) {
-            if (scrollY > 0 && view.isVisible) {
-                view.hideWithAnimation(500)
-            } else if (scrollY < 0 && !view.isVisible) {
-                view.showWithAnimation(500)
-            }
+
+fun ScrollView.hideViewOnScroll(vararg views: View) {
+    setOnScrollChangeListener { _, _, scrollY, _, oldScrollY ->
+        //Log.d(TAG, "setOnClicks: $scrollY, $oldScrollY")
+        if (oldScrollY in 1 until scrollY) {
+            //Scroll down
+            views.forEach { it.hideWithAnimation(500) }
+        } else {
+            //Scroll up
+            views.forEach { it.showWithAnimation(500) }
         }
     }
 }

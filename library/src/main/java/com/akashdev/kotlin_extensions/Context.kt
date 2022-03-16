@@ -180,7 +180,7 @@ fun Context.share(message: String, appId: String? = null) {
     appId?.let { intent.setPackage(it) }
 
     when {
-        appId.isNullOrEmpty() -> startActivity(intent)
+        appId.isNullOrBlank() -> startActivity(intent)
         isPackageInstalled(appId) -> startActivity(intent)
         else -> toast("App not installed")
     }
@@ -220,12 +220,10 @@ fun Context.isNewlyInstallApp(packageName: CharSequence): Boolean {
     }.getOrDefault(false)
 }
 
-fun Context.hideSoftKeyboard(view: View) {
-    if (view.hasFocus()) {
-        val imm =
-            getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        if (imm.isAcceptingText) imm.hideSoftInputFromWindow(view.windowToken, 0)
-    }
+fun View.hideKeyboard() {
+    val inputMethodManager: InputMethodManager? =
+        context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
+    inputMethodManager?.hideSoftInputFromWindow(windowToken, 0)
 }
 
 fun Context.inflate(
@@ -245,4 +243,15 @@ fun Context.batteryLevel(): Int {
     return (getSystemService(Context.BATTERY_SERVICE) as BatteryManager).getIntProperty(
         BatteryManager.BATTERY_PROPERTY_CAPACITY
     )
+}
+
+
+fun Context.getNumberOfColumns(layout: Int): Int {
+    val view = View.inflate(this, layout, null)
+    view.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED)
+    val width = view.measuredWidth
+    var count: Int = resources.displayMetrics.widthPixels / width
+    val remaining: Int = resources.displayMetrics.widthPixels - width * count
+    if (remaining > width - 15) count++
+    return count
 }

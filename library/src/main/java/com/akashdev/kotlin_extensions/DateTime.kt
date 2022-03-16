@@ -1,11 +1,35 @@
 package com.akashdev.kotlin_extensions
 
+import android.content.Context
+import android.text.format.DateFormat
+import java.math.BigDecimal
+import java.math.RoundingMode
 import java.text.Format
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
 import kotlin.math.roundToInt
 
+
+fun Double.roundOffDecimal(): Double {
+    return BigDecimal(this).setScale(1, RoundingMode.FLOOR).toDouble()
+}
+
+fun Long.millisToDaysDouble(): Double {
+    // google said divide millis with 8.64e+7 to get days in flout
+    val days = this / 8.64e+7//it wil return something like 1.01391313112212
+    return days.roundOffDecimal()
+}
+
+fun convertMinutesToHrMin(timeInMinutes: Int, context: Context): String {
+    val time = timeInMinutes.minToMillis().toHrMin()
+    if (DateFormat.is24HourFormat(context)) return time
+    return runCatching {
+        val sdf = SimpleDateFormat("H:mm", Locale.getDefault())
+        val dateObj: Date = sdf.parse(time)
+        SimpleDateFormat("hh:mma", Locale.getDefault()).format(dateObj)
+    }.getOrDefault(time)
+}
 
 fun currentClockMinutes(): Int {
     val calendar = Calendar.getInstance(Locale.getDefault())
